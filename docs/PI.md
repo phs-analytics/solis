@@ -5,7 +5,7 @@
 ## Como usar este plano
 - Etapas **sequenciais**: uma só começa depois que você aprovar a anterior.
 - Cada etapa tem objetivo, tarefas e **checklist de aprovação**.
-- Cada etapa termina com um Pull Request (`etapa-NN-nome`), CI verde e uma tag (`v1.0.NN`).
+- Cada etapa termina com um Pull Request (`etapa-NN-nome`), CI verde e uma tag `v0.N.0` (etapa 1 → `v0.1.0`, etapa 11 → `v0.11.0`); a versão final é `v1.0.0`.
 - Estimativas para ~10–15 h por semana.
 
 ### Definição de pronto (toda etapa)
