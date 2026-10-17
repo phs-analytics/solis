@@ -1,0 +1,36 @@
+# Dependências e builds
+node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+__pycache__/
+.venv/
+
+# Dados pessoais e segredos: NUNCA versionar
+data/*
+!data/README.md
+backups/*
+!backups/README.md
+referencias/
+config/*.local.*
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+*.ofx
+*.qfx
+*.solis
+*.pem
+*.key
+*.p12
+
+# Sistema e editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.claude/*.local.*
