@@ -41,7 +41,7 @@
    ```bash
    corepack enable
    ```
-   Se o comando não existir na sua versão do Node:
+   Se o comando não existir na sua versão do Node, ou der erro de permissão (`EPERM`, comum no Windows sem administrador):
    ```bash
    npm install -g pnpm
    ```
@@ -61,8 +61,15 @@
    ```bash
    git config --global user.name "Seu nome ou apelido público"
    ```
-4. Faça um **Fork** do repositório do Solis (ou clone e crie o seu). No seu repositório, em **Settings › Code security**, ligue *Secret scanning*, *Push protection*, *Dependabot* e *CodeQL*.
-5. Clone e instale:
+4. Faça um **Fork** do repositório do Solis (ou clone e crie o seu). No seu repositório, em **Settings › Advanced Security** (em algumas contas, "Code security"), ligue *Private vulnerability reporting*, *Dependabot alerts*, *Dependabot security updates*, *Secret scanning*, *Push protection* e, em *CodeQL analysis*, o **Default setup**.
+5. Instale o **gitleaks**, que impede commits com chaves, tokens ou CPF, e **feche e abra o terminal** de novo:
+   ```bash
+   winget install -e --id Gitleaks.Gitleaks
+   ```
+   ```bash
+   gitleaks version
+   ```
+6. Clone e instale:
    ```bash
    git clone https://github.com/SEU-USUARIO/solis.git
    ```
@@ -72,6 +79,16 @@
    ```bash
    pnpm install --frozen-lockfile
    ```
+   O `pnpm install` também liga o gitleaks em todo commit (pasta `.githooks/`). Confira:
+   ```bash
+   git config core.hooksPath
+   ```
+   A resposta deve ser `.githooks`. Se o gitleaks encontrar algo, o commit é recusado e ele mostra o arquivo e a linha.
+7. Antes de cada commit, revise o que vai entrar:
+   ```bash
+   git diff --cached
+   ```
+8. **Proteja a `main`:** em **Settings › Rules › Rulesets**, crie uma regra para a branch padrão exigindo Pull Request e o CI verde (check `verificar`), e bloqueando *force push* e exclusão.
 
 ## 3. Instalar e iniciar o Solis (escrita na etapa 2)
 Resumo: `pnpm start` liga o servidor no seu computador. No primeiro acesso você cria uma **frase-senha** (por exemplo, quatro palavras aleatórias). Ela cifra o banco: **se esquecer, os dados não abrem mais**, nem para você.

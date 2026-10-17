@@ -1,0 +1,7 @@
+#!/bin/sh
+# SEC-10: bloqueia commits com chaves, tokens ou CPF.
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "gitleaks não encontrado. Instale (docs/TUTORIAL.md, parte 2) e tente de novo." >&2
+  exit 1
+fi
+exec gitleaks git --pre-commit --staged --redact --no-banner --verbose

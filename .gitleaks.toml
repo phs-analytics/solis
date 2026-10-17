@@ -1,0 +1,11 @@
+# SEC-10: regras padrão do gitleaks + CPF.
+title = "Solis"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "cpf"
+description = "CPF formatado (000.000.000-00)"
+# shortcut: só o formato com pontos; 11 dígitos soltos dariam falso positivo demais.
+regex = '''\b\d{3}\.\d{3}\.\d{3}-\d{2}\b'''
