@@ -94,7 +94,7 @@ Prioridade: **P0** = obrigatório na V1 · **P1** = entra na V1 se o tempo permi
 | F-12 | Reconciliação: Pluggy, OFX/CSV e manual sem duplicar (valor + data ± 1 dia + descrição normalizada) | P0 |
 | F-13 | Conteúdo educativo genérico sobre reserva e dívidas, com Selic/CDI do Banco Central e aviso fixo "não é recomendação de investimento" | P1 |
 
-**Regras do conteúdo financeiro:** o Solis não é consultoria (atividade regulada pela CVM). Ordem embutida: 1) dívida cara primeiro; 2) reserva de emergência com liquidez diária e FGC, comparando com a poupança; 3) depois, só conceitos (prazo, risco, liquidez). Nunca citar banco, corretora ou produto.
+**Regras do conteúdo financeiro:** o Solis não é consultoria (atividade regulada pela CVM). Pela Resolução CVM 19/2021, art. 1º, consultoria é orientação "profissional, independente e individualizada" sobre valores mobiliários. O conteúdo do Solis é genérico e igual para todos, e nunca recomenda produto, emissor ou instituição: fazer isso sem registro é atividade privativa (CVM 19, art. 2º) e pode ser crime (Lei 6.385/1976, art. 27-E). Ordem embutida: 1) dívida cara primeiro; 2) reserva de emergência com liquidez diária e FGC, comparando com a poupança; 3) depois, só conceitos (prazo, risco, liquidez). Nunca citar banco, corretora ou produto.
 
 ### 2.3 Agenda
 | ID | Requisito | Prior. |
@@ -123,7 +123,7 @@ Prioridade: **P0** = obrigatório na V1 · **P1** = entra na V1 se o tempo permi
 | I-02 | Perguntas de dados respondidas por cálculo: "quanto posso gastar hoje?", "quais contas vencem essa semana?", "tenho horário livre hoje?", "que treino faço hoje?", "como está minha meta?" | P0 |
 | I-03 | Entende variações de escrita ("qnto posso gasta hj") | P0 |
 | I-04 | Botões de sugestão | P0 |
-| I-05 | Respostas fixas de segurança: crise → CVV 188; diagnóstico ou remédio → procurar profissional; produto financeiro → aviso | P0 |
+| I-05 | Respostas fixas de segurança: crise → CVV 188; diagnóstico ou remédio → procurar profissional; produto financeiro → aviso. O app nunca emite diagnóstico médico nem psicológico (o diagnóstico psicológico é privativo do psicólogo, Lei 4.119/1962) | P0 |
 | I-06 | Textos educativos curtos escritos pelo projeto, com busca por palavra-chave | P1 |
 
 ---
@@ -207,8 +207,9 @@ Tudo o que foi pesquisado continua valendo (termos lidos em 16/10/2026; cópias 
 ### 3.6 Outras APIs (todas gratuitas, chamadas pelo servidor)
 | Uso | API | Observação |
 |---|---|---|
-| Clima | Open-Meteo | Cidade escolhida numa lista local (IBGE; conferir licença), sem enviar CEP |
+| Clima | Open-Meteo | Cidade escolhida numa lista local (IBGE), sem enviar CEP. **Crédito obrigatório** na tela do clima e em "Sobre": "Dados do tempo: Open-Meteo.com" (dados sob CC BY 4.0). O plano gratuito da API é só para uso não comercial: rever antes de qualquer uso comercial |
 | Feriados | BrasilAPI | Cache anual, lista embutida de reserva |
+| Municípios | IBGE (lista embutida) | Dados públicos; citar a fonte ("Fonte: IBGE") na tela "Sobre" |
 | Selic / CDI | Banco Central SGS (reserva: BrasilAPI) | Conteúdo educativo |
 | Exercícios | wger | Importado **uma vez** por script e embutido; licença Creative Commons por item (crédito ao autor; traduções sob a mesma licença) |
 
@@ -246,7 +247,7 @@ Detalhes em [Seguranca.md](Seguranca.md).
 | SEC-13 | Tailscale: conta com 2FA no provedor de login; aparelho perdido é removido no painel do Tailscale (roteiro no TUTORIAL) |
 | SEC-14 | Backups continuam cifrados (são cópias do arquivo cifrado); recomendação de guardar fora do PC |
 
-**LGPD:** saúde é dado sensível. Os dados ficam só no seu PC (e, se ligada, a Pluggy guarda os seus dados bancários na sua conta Meu Pluggy). Consentimentos separados e revogáveis (Pluggy, localização para clima, ciclo menstrual); "Apagar tudo" apaga o banco, os backups gerados pelo app e as credenciais; exportação em JSON/CSV. *Isto não é parecer jurídico.*
+**LGPD:** saúde é dado sensível (art. 5º, II). Na V1, o tratamento é feito por você, para fins exclusivamente particulares e não econômicos, então a LGPD não se aplica (art. 4º, I); mesmo assim, o Solis segue as boas práticas abaixo. **Se o Solis passar a atender outras pessoas** (V2, site, sincronização), a LGPD vale por inteiro: dados de saúde, humor, terapia e ciclo menstrual exigem consentimento específico e destacado para cada finalidade (art. 11, I), além de medidas de segurança (art. 46). Detalhes em [Seguranca.md](Seguranca.md) §7. Os dados ficam só no seu PC (e, se ligada, a Pluggy guarda os seus dados bancários na sua conta Meu Pluggy). Consentimentos separados e revogáveis (Pluggy, localização para clima, ciclo menstrual); "Apagar tudo" apaga o banco, os backups gerados pelo app e as credenciais; exportação em JSON/CSV. *Isto não é parecer jurídico.*
 
 ---
 
@@ -290,4 +291,5 @@ Detalhes em [Seguranca.md](Seguranca.md).
 1. Driver de SQLite cifrado + ORM (spike da etapa 2).
 2. Configuração exata do Tailscale Serve com HTTPS no Windows (spike da etapa 4).
 3. Endpoint e paginação de transações da Pluggy (spike da etapa 6).
-4. Licença da lista de municípios do IBGE (etapa 8).
+4. Licença da lista de municípios do IBGE (etapa 8): dados públicos; manter o crédito "Fonte: IBGE".
+5. Revisão legal antes de cada publicação: checklist em [Seguranca.md](Seguranca.md) §7.

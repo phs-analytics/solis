@@ -53,3 +53,21 @@ Na V1, o risco muda de lugar: em vez de tudo ficar no navegador, existe um **ser
 ## 6. O que não foi verificado
 - Comportamento do `better-sqlite3-multiple-ciphers` com o Drizzle ORM (spike da etapa 2).
 - Configuração exata do `tailscale serve` com HTTPS no Windows (spike da etapa 4).
+
+## 7. Conformidade legal
+Triagem de 03/11/2026, feita com os textos compilados do acervo [ctresb/leis](https://github.com/ctresb/leis). **Resultado:** a documentação da V1 não infringe nenhuma das normas abaixo. A tabela registra os cuidados para continuar assim.
+
+| Tema | Norma | Como o Solis atende | Revisar quando |
+|---|---|---|---|
+| Dados pessoais e sensíveis (saúde, humor, ciclo) | LGPD, arts. 4º I, 5º II, 11 e 46 | V1 de uso pessoal (art. 4º, I); banco cifrado, consentimentos separados e revogáveis, "Apagar tudo" | O Solis passar a ter outros usuários: aplicar a LGPD por inteiro, com consentimento específico e destacado (art. 11, I), relatório de impacto e um aviso de privacidade |
+| Conteúdo sobre investimentos | Resolução CVM 19/2021, arts. 1º e 2º; Lei 6.385/1976, art. 27-E | Conteúdo genérico, sem recomendar produto, emissor ou instituição, com aviso fixo | Qualquer resposta personalizada sobre onde investir |
+| Saúde física e mental | Lei 12.842/2013 (Ato Médico); Lei 4.119/1962 (Psicologia) | Sem diagnóstico nem prescrição; encaminhamento ao CVV 188, CAPS ou UBS | Qualquer interpretação de sintomas ou de humor |
+| Dados e conteúdos de terceiros | Lei 9.610/1998, art. 29, e as licenças de cada fonte | wger (CC BY-SA, crédito por item e mesma licença nas traduções); Open-Meteo (CC BY 4.0, crédito na tela, plano grátis não comercial); IBGE (citar a fonte) | Nova fonte de dados ou uso comercial |
+| Nomes de terceiros | Lei 9.279/1996, art. 132, IV | CVV, Pluggy e bancos são citados só para identificação, sem copiar marca, textos ou layout (termos da Pluggy) | Uso de logotipos ou divulgação comercial |
+
+**Antes de cada publicação** (repositório, release, post ou vídeo):
+1. Releia esta tabela e confira se alguma mudança cai na coluna "Revisar quando".
+2. Confira as licenças e os termos de uso de toda fonte nova.
+3. Mostre em prints e vídeos só dados do modo demonstração (R02).
+
+*Triagem automatizada, não é parecer jurídico. Os textos do acervo são informativos e não substituem o Diário Oficial.*
