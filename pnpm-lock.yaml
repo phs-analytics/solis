@@ -175,6 +175,12 @@ importers:
       '@fastify/static':
         specifier: ^10.1.10
         version: 10.1.10
+      '@fontsource/atkinson-hyperlegible':
+        specifier: ^5.3.0
+        version: 5.3.0
+      '@fontsource/plus-jakarta-sans':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@zxcvbn-ts/core':
         specifier: ^4.2.0
         version: 4.2.0
@@ -792,6 +798,12 @@ packages:
 
   '@fastify/static@10.1.10':
     resolution: {integrity: sha512-CGwOoZiKg5m4SAqeiS8bzCSKDa71DMFQ7QeVsuWBOrfFu32DpVZWFFb0cpEg7e54YK6HZZsl4g/wfoKMnRQMUw==}
+
+  '@fontsource/atkinson-hyperlegible@5.3.0':
+    resolution: {integrity: sha512-Sp8Ve8+rQmENY2Lv02VH7sLpntzTTvnncnJMTbRE7DX6TLxGraN4ykZfzaUWIoCFmaomwkvNiqmlPkrKBuDoSA==}
+
+  '@fontsource/plus-jakarta-sans@5.3.0':
+    resolution: {integrity: sha512-9WRw3G74Ve4cyPApAZSXLPY5DiLOZXDn7Q7dIBjFBpA0Pj56ljDItEdy2UUajjJxRuTg2HkMLO5C3K2nAQORWg==}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -2361,6 +2373,10 @@ snapshots:
       fastify-plugin: 6.0.1
       fastq: 1.20.3
       glob: 14.0.6
+
+  '@fontsource/atkinson-hyperlegible@5.3.0': {}
+
+  '@fontsource/plus-jakarta-sans@5.3.0': {}
 
   '@humanfs/core@0.19.2':
     dependencies:
