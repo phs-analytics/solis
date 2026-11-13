@@ -1,5 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { injectAxe, getViolations } from 'axe-playwright';
+import { ipcFalso } from './ipc-falso.ts';
 
 const SENHA = 'Cavalo-Bateria-Grampo-42';
 
@@ -8,9 +9,8 @@ async function semViolacoes(page: Page) {
   expect(await getViolations(page)).toEqual([]);
 }
 
-test.describe.configure({ mode: 'serial' });
-
-test('criar senha: recusa fraca, aceita forte', async ({ page }) => {
+test('criar senha: recusa fraca, aceita forte, sair', async ({ page }) => {
+  await ipcFalso(page);
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Criar senha' })).toBeVisible();
   await semViolacoes(page);
@@ -29,7 +29,8 @@ test('criar senha: recusa fraca, aceita forte', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Entrar no Solis' })).toBeVisible();
 });
 
-test('entrar de novo, só pelo teclado', async ({ page }) => {
+test('entrar só pelo teclado; senha errada avisa', async ({ page }) => {
+  await ipcFalso(page, SENHA);
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Entrar no Solis' })).toBeVisible();
   await semViolacoes(page);
@@ -41,9 +42,4 @@ test('entrar de novo, só pelo teclado', async ({ page }) => {
   await page.getByLabel('Senha').fill(SENHA);
   await page.keyboard.press('Enter');
   await expect(page.getByText('Seus dados estão abertos.')).toBeVisible();
-});
-
-test('não pode ser aberto num iframe', async ({ request }) => {
-  const r = await request.get('/');
-  expect(r.headers()['content-security-policy']).toContain("frame-ancestors 'none'");
 });

@@ -3,7 +3,7 @@ import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { readFileSync } from 'node:fs';
 import * as schema from './schema.ts';
 
-const MIGRATIONS = [new URL('./migrations/0001_init.sql', import.meta.url)];
+const MIGRATIONS = [new URL('../../../src-tauri/migrations/0001_init.sql', import.meta.url)];
 
 export function openDb(dbPath: string, key: Buffer) {
   if (key.length !== 32) throw new RangeError('key must be 32 bytes');

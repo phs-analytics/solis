@@ -21,3 +21,6 @@ Os dados do Solis ficam só no computador do usuário e precisam estar cifrados 
 - O plano B (SQL puro) não foi necessário.
 - Trocar a senha exige `PRAGMA rekey` (etapa 10).
 - Esquecer a senha torna os dados irrecuperáveis; a tela de criação avisa isso.
+
+## Atualização (13/11/2026)
+Com a mudança para app ([ADR 0002](0002-plataforma.md)), o cofre passou para o núcleo Rust (`src-tauri/src/cofre.rs`, `rusqlite` + SQLCipher embutido) com o **mesmo formato** (SQLCipher v4, chave bruta por scrypt, mesmos parâmetros). A migração `0001_init.sql` mudou para `src-tauri/migrations/` e é compartilhada. O teste em Node (`tests/integration/db.test.ts`) continua como prova de compatibilidade do formato.

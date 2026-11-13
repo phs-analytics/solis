@@ -1,17 +1,40 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { getStatus, post, type Status } from './api.ts';
+import { criarSenha, entrar, getStatus, sair, tocar, type CodigoErro, type Status } from './api.ts';
 import type { AvaliacaoSenha } from '../domain/senha.ts';
 import { Button, Card, TextField } from './ui/components.tsx';
 
-const MENSAGENS: Record<number, string> = {
-  401: 'Senha incorreta.',
-  429: 'Muitas tentativas. Espere 15 minutos.',
+const MENSAGENS: Partial<Record<CodigoErro, string>> = {
+  'senha-incorreta': 'Senha incorreta.',
+  'muitas-tentativas': 'Muitas tentativas. Espere 15 minutos.',
+  'senha-fraca': 'Escolha uma senha mais forte.',
 };
+const MINUTO = 60_000;
 
 export function App() {
   const [status, setStatus] = useState<Status | null>(null);
   const atualizar = () => void getStatus().then(setStatus);
   useEffect(atualizar, []);
+
+  // The vault locks itself after 30 min idle; report activity and re-check status each minute.
+  const autenticado = status?.autenticado ?? false;
+  useEffect(() => {
+    if (!autenticado) return;
+    let ultimo = 0;
+    const ativo = () => {
+      if (Date.now() - ultimo > MINUTO) {
+        ultimo = Date.now();
+        void tocar();
+      }
+    };
+    const t = setInterval(atualizar, MINUTO);
+    addEventListener('pointerdown', ativo);
+    addEventListener('keydown', ativo);
+    return () => {
+      clearInterval(t);
+      removeEventListener('pointerdown', ativo);
+      removeEventListener('keydown', ativo);
+    };
+  }, [autenticado]);
 
   if (!status)
     return (
@@ -46,10 +69,10 @@ function CriarSenha({ onOk }: { onOk: () => void }) {
     if (senha !== confirma) return setErro('As senhas não são iguais.');
     if (!av?.forte) return setErro('Escolha uma senha mais forte.');
     setEnviando(true);
-    const r = await post('/api/setup', { senha });
+    const r = await criarSenha(senha);
     setEnviando(false);
     if (r.ok) onOk();
-    else setErro(r.data.sugestao || 'Não foi possível criar a senha.');
+    else setErro(MENSAGENS[r.erro] ?? 'Não foi possível criar a senha.');
   }
 
   return (
@@ -99,10 +122,10 @@ function Entrar({ onOk }: { onOk: () => void }) {
   async function enviar(e: FormEvent) {
     e.preventDefault();
     setEnviando(true);
-    const r = await post('/api/login', { senha });
+    const r = await entrar(senha);
     setEnviando(false);
     if (r.ok) return onOk();
-    setErro(MENSAGENS[r.status] ?? 'Não foi possível entrar.');
+    setErro(MENSAGENS[r.erro] ?? 'Não foi possível entrar.');
     setSenha('');
   }
 
@@ -137,7 +160,7 @@ function Desbloqueado({ onSair }: { onSair: () => void }) {
       <h1>Solis</h1>
       <Card vidro>
         <p>Seus dados estão abertos.</p>
-        <Button variante="secundario" onClick={() => void post('/api/logout').then(onSair)}>
+        <Button variante="secundario" onClick={() => void sair().then(onSair)}>
           Sair
         </Button>
       </Card>

@@ -1,13 +1,20 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
+// `tauri android dev` sets TAURI_DEV_HOST so the phone can reach the dev server
+const host = process.env.TAURI_DEV_HOST;
+
 export default defineConfig({
   root: 'src/web',
   plugins: [react()],
-  build: { outDir: '../../dist/web', emptyOutDir: true },
+  clearScreen: false,
+  envPrefix: ['VITE_', 'TAURI_ENV_'],
+  build: { outDir: '../../dist/web', emptyOutDir: true, target: 'es2022' },
   server: {
-    host: '127.0.0.1',
+    host: host ?? '127.0.0.1',
     port: 5173,
-    proxy: { '/api/': { target: 'http://127.0.0.1:3000', changeOrigin: true } },
+    strictPort: true,
+    ...(host ? { hmr: { protocol: 'ws', host, port: 5183 } } : {}),
+    watch: { ignored: ['**/src-tauri/**'] },
   },
 });
