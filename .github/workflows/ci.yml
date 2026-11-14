@@ -61,3 +61,39 @@ jobs:
       - run: cargo fmt --manifest-path src-tauri/Cargo.toml --check
       - run: cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings
       - run: cargo test --manifest-path src-tauri/Cargo.toml
+
+  # APK de debug para Android (cross-compilação só funciona no Linux).
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+      - uses: android-actions/setup-android@v3
+      - name: NDK e ferramentas
+        run: sdkmanager "ndk;29.0.13846066" "build-tools;35.0.0" "platform-tools" "cmdline-tools;latest"
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Dependências do Tauri no Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      - name: Alvos Android para o Rust
+        run: rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: APK debug
+        run: pnpm tauri android build --apk --debug
+        env:
+          NDK_HOME: ${{ env.ANDROID_NDK_HOME }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: solis-debug-apk
+          path: src-tauri/gen/android/app/build/outputs/apk/universal/debug/*.apk
