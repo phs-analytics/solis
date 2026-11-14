@@ -14,6 +14,7 @@ import {
   type Rota,
 } from './ui/components.tsx';
 import { salvarReduzirEfeitos, salvarTema, temaSalvo, type Tema } from './ui/preferencias.ts';
+import { SolisAvatar } from './assistente/Assistente.tsx';
 import './catalogo.css';
 
 /** Dev-only page (DS §5): every component in its documented states. Open /#catalogo. */
@@ -125,7 +126,9 @@ export default function Catalogo() {
       </main>
 
       <Navegacao atual={rota} onIr={setRota} />
-      <BotFab onClick={() => setSnack(true)} />
+      <BotFab onClick={() => setSnack(true)}>
+        <SolisAvatar size={48} settleAfterMs={3000} ariaLabel="Assistente Solis" />
+      </BotFab>
       {snack ? (
         <Snackbar
           mensagem="Gasto excluído"

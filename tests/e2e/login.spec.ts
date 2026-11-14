@@ -24,7 +24,7 @@ test('criar senha: recusa fraca, aceita forte, sair', async ({ page }) => {
   await page.getByLabel('Repita a senha').fill(SENHA);
   await expect(page.getByText('Senha forte.')).toBeVisible();
   await page.getByRole('button', { name: 'Criar senha' }).click();
-  await expect(page.getByText('Seus dados estão abertos.')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Bom dia!' })).toBeVisible();
   await page.getByRole('button', { name: 'Sair' }).click();
   await expect(page.getByRole('heading', { name: 'Entrar no Solis' })).toBeVisible();
 });
@@ -41,5 +41,5 @@ test('entrar só pelo teclado; senha errada avisa', async ({ page }) => {
 
   await page.getByLabel('Senha').fill(SENHA);
   await page.keyboard.press('Enter');
-  await expect(page.getByText('Seus dados estão abertos.')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Bom dia!' })).toBeVisible();
 });

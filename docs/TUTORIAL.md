@@ -138,6 +138,8 @@ Os pacotes `.deb` e AppImage são gerados pelo GitHub Actions (não dá para ger
 ## 4. Design System
 Em desenvolvimento, `pnpm vite` e abra `http://127.0.0.1:5173/#catalogo`: todos os componentes nos estados do DS, com botões para tema claro/escuro e "reduzir efeitos". O catálogo não entra no app final. O contraste das cores é medido automaticamente por `tests/unit/contraste.test.ts`.
 
+As telas (Visão geral, Finanças, Tarefas, Saúde) já seguem o visual novo (DS §0), mas ainda mostram **dados de exemplo** (`src/web/telas/exemplo.ts`): os dados reais chegam nas etapas 5 a 8. O avatar do assistente fica no botão redondo do canto; as respostas chegam na etapa 9.
+
 ## 5. Acessar pelo celular com o Tailscale
 > **Será revisada na etapa de sincronização:** com o app instalado no celular, o Tailscale passa a ligar os aparelhos ao **servidor de sincronização**, não mais a uma página aberta no navegador. Os passos 1–5 abaixo continuam valendo; 6–8 mudam.
 

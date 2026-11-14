@@ -1,0 +1,124 @@
+{
+  "name": "New avatar",
+  "body": {
+    "primary": {
+      "type": "sphere",
+      "width": 240,
+      "height": 240,
+      "depth": 240,
+      "roundness": 1
+    },
+    "nodes": [
+      {
+        "surface": {
+          "type": "diamond",
+          "width": 79.9,
+          "height": 88.4,
+          "depth": 73.10000000000001,
+          "roundness": 0
+        },
+        "position": [-196.29269449715372, -5.718216318785558, -18],
+        "rotation": [0, 0, -90.84908656729816]
+      },
+      {
+        "surface": {
+          "type": "diamond",
+          "width": 79.9,
+          "height": 88.4,
+          "depth": 73.10000000000001,
+          "roundness": 0
+        },
+        "position": [193.68026565464893, -5.718216318785579, -18],
+        "rotation": [0, 0, 89.49177128406623]
+      },
+      {
+        "surface": {
+          "type": "diamond",
+          "width": 79.9,
+          "height": 88.4,
+          "depth": 73.10000000000001,
+          "roundness": 0
+        },
+        "position": [1.5332068311195073, -181.41034155597725, -18],
+        "rotation": [0, 0, 0.4591803850835825]
+      },
+      {
+        "surface": {
+          "type": "diamond",
+          "width": 68.6923076923077,
+          "height": 76,
+          "depth": 62.84615384615385,
+          "roundness": 0
+        },
+        "position": [136.8206831119545, -128.7481024667932, -18],
+        "rotation": [0, 0, 42.69096825961275]
+      },
+      {
+        "surface": {
+          "type": "diamond",
+          "width": 68.6923076923077,
+          "height": 76,
+          "depth": 62.84615384615385,
+          "roundness": 0
+        },
+        "position": [-144.084440227704, -131.9259962049336, -18],
+        "rotation": [0, 0, -39.94315484415777]
+      },
+      {
+        "surface": {
+          "type": "diamond",
+          "width": 68.6923076923077,
+          "height": 76,
+          "depth": 62.84615384615385,
+          "roundness": 0
+        },
+        "position": [115.59487666034154, 158.1703036053131, -18],
+        "rotation": [0, 0, -37.541830668527936]
+      },
+      {
+        "surface": {
+          "type": "diamond",
+          "width": 68.6923076923077,
+          "height": 76,
+          "depth": 62.84615384615385,
+          "roundness": 0
+        },
+        "position": [-115.59487666034155, 155.90037950664143, -18],
+        "rotation": [0, 0, 35.94059843829255]
+      }
+    ]
+  },
+  "colors": {
+    "body": "#d9a635",
+    "eyes": "#320101"
+  },
+  "face": {
+    "eyes": {
+      "width": 1.3,
+      "height": 1.3,
+      "gap": 1,
+      "shiftY": -0.058333333333333334
+    },
+    "nose": {
+      "enabled": false,
+      "shape": "inverted-triangle",
+      "roundness": 50,
+      "width": 14,
+      "height": 11,
+      "x": 0,
+      "y": 22,
+      "angle": 0
+    },
+    "mouth": {
+      "enabled": false,
+      "shape": "curve",
+      "curve": 45,
+      "width": 20,
+      "height": 6,
+      "x": 0,
+      "y": 35,
+      "angle": 0
+    },
+    "perspective": 1
+  }
+}

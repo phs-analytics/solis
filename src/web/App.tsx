@@ -1,7 +1,9 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent, type ReactElement } from 'react';
 import { criarSenha, entrar, getStatus, sair, tocar, type CodigoErro, type Status } from './api.ts';
 import type { AvaliacaoSenha } from '../domain/senha.ts';
-import { Button, Card, TextField } from './ui/components.tsx';
+import { Button, Navegacao, ROTAS, TextField, type Rota } from './ui/components.tsx';
+import { Assistente } from './assistente/Assistente.tsx';
+import { Financas, Saude, Tarefas, VisaoGeral } from './telas/Telas.tsx';
 
 const MENSAGENS: Partial<Record<CodigoErro, string>> = {
   'senha-incorreta': 'Senha incorreta.',
@@ -154,16 +156,39 @@ function Entrar({ onOk }: { onOk: () => void }) {
   );
 }
 
+const TELAS: Record<Rota, () => ReactElement> = {
+  inicio: VisaoGeral,
+  financas: Financas,
+  tarefas: Tarefas,
+  saude: Saude,
+};
+const rotaDoHash = (): Rota => {
+  const h = location.hash.slice(1);
+  return ROTAS.some(([r]) => r === h) ? (h as Rota) : 'inicio';
+};
+
 function Desbloqueado({ onSair }: { onSair: () => void }) {
+  const [rota, setRota] = useState<Rota>(rotaDoHash);
+  const Tela = TELAS[rota];
   return (
-    <main className="pagina">
-      <h1>Solis</h1>
-      <Card vidro>
-        <p>Seus dados estão abertos.</p>
-        <Button variante="secundario" onClick={() => void sair().then(onSair)}>
-          Sair
-        </Button>
-      </Card>
-    </main>
+    <div className="app">
+      <Navegacao
+        atual={rota}
+        onIr={(r) => {
+          history.replaceState(null, '', `#${r}`);
+          setRota(r);
+          scrollTo(0, 0);
+        }}
+      />
+      <main className="conteudo">
+        <div className="barra-topo">
+          <Button variante="fantasma" onClick={() => void sair().then(onSair)}>
+            Sair
+          </Button>
+        </div>
+        <Tela />
+      </main>
+      <Assistente />
+    </div>
   );
 }

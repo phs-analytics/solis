@@ -22,3 +22,140 @@
   margin: 0;
   color: var(--negative);
 }
+
+/* Estrutura do app desbloqueado */
+.conteudo {
+  display: grid;
+  gap: var(--sp-lg);
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: var(--sp-md) var(--sp-md) 120px;
+}
+@media (min-width: 768px) {
+  .conteudo {
+    margin-left: calc(200px + 2 * var(--sp-md));
+    padding: var(--sp-lg) var(--sp-xl) var(--sp-xxl);
+  }
+}
+.conteudo h1 {
+  margin: 0;
+}
+.barra-topo {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: calc(-1 * var(--sp-lg));
+}
+.grade {
+  display: grid;
+  gap: var(--sp-md);
+}
+@media (min-width: 768px) {
+  .grade-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grade-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .grade-hero {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  }
+}
+.saudacao {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-md);
+}
+/* the avatar's rays move outside its box (overflow: visible) */
+.saudacao svg {
+  flex: 0 0 auto;
+  margin: var(--sp-md);
+}
+.saudacao .rotulo-mono {
+  margin: 0;
+}
+.saldo-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.saldo-valor {
+  margin: var(--sp-sm) 0;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.saldo-sub {
+  margin: 0;
+  color: var(--text-secondary);
+}
+.aneis {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: var(--sp-md);
+}
+.lista {
+  display: grid;
+  gap: var(--sp-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.lista li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-sm);
+}
+.positivo {
+  color: var(--positive);
+}
+.barra-empilhada {
+  display: flex;
+  gap: 4px;
+  height: 14px;
+  margin-bottom: var(--sp-md);
+}
+.barra-empilhada span {
+  border-radius: 999px;
+}
+.tarefas {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.saude-agua {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-lg);
+  margin-bottom: var(--sp-md);
+}
+.ajuda {
+  margin: 0;
+  padding: var(--sp-md);
+  border-radius: var(--r-md);
+  background: var(--surface-high);
+  text-align: center;
+}
+
+/* Painel do assistente */
+.assistente {
+  max-width: min(26rem, calc(100vw - 2 * var(--sp-md)));
+  color: var(--text-primary);
+  text-align: center;
+}
+.assistente::backdrop {
+  background: rgb(0 0 0 / 45%);
+}
+.assistente svg {
+  margin: 0 auto var(--sp-md);
+}
+.assistente-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-sm);
+}

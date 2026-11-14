@@ -181,22 +181,28 @@ export function EmptyState({ titulo, acao }: { titulo: string; acao?: ReactNode 
 
 const ICONES: Record<string, string> = {
   inicio: 'M4 11 12 4l8 7v9h-5v-6H9v6H4z',
-  agenda: 'M5 5h14v15H5zM5 9h14M9 3v4M15 3v4',
+  tarefas: 'M4 6h3M4 12h3M4 18h3M10 6h10M10 12h10M10 18h10',
   financas: 'M3 7h18v12H3zM3 11h18M7 15h4',
   saude: 'M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z',
 };
 
-export type Rota = 'inicio' | 'agenda' | 'financas' | 'saude';
-const ROTAS: [Rota, string][] = [
-  ['inicio', 'Início'],
-  ['agenda', 'Agenda'],
+export type Rota = 'inicio' | 'financas' | 'tarefas' | 'saude';
+export const ROTAS: [Rota, string][] = [
+  ['inicio', 'Visão geral'],
   ['financas', 'Finanças'],
+  ['tarefas', 'Tarefas'],
   ['saude', 'Saúde'],
 ];
 
 export function Navegacao({ atual, onIr }: { atual: Rota; onIr: (r: Rota) => void }) {
   return (
     <nav className="nav" aria-label="Principal">
+      <p className="nav-marca" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28">
+          <circle cx="12" cy="12" r="6" fill="var(--sol-500)" />
+        </svg>
+        Solis
+      </p>
       <ul>
         {ROTAS.map(([rota, nome]) => (
           <li key={rota}>
@@ -221,13 +227,179 @@ export function Navegacao({ atual, onIr }: { atual: Rota; onIr: (r: Rota) => voi
   );
 }
 
-export function BotFab({ onClick }: { onClick: () => void }) {
+export function BotFab({ onClick, children }: { onClick: () => void; children: ReactNode }) {
   return (
     <button type="button" className="bot-fab" aria-label="Abrir assistente Solis" onClick={onClick}>
-      <svg aria-hidden="true" viewBox="0 0 24 24" width="28" height="28">
-        <path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2L12 16.6 5.7 21l2.3-7.2-6-4.6h7.6z" />
-      </svg>
+      {children}
     </button>
+  );
+}
+
+export function StatCard({
+  rotulo,
+  valor,
+  variacao,
+  serie,
+  cor = 'var(--sol-500)',
+}: {
+  rotulo: string;
+  valor: string;
+  variacao?: string;
+  serie?: number[];
+  cor?: string;
+}) {
+  return (
+    <div className="card stat">
+      <span className="rotulo-mono">{rotulo}</span>
+      <span className="stat-valor">{valor}</span>
+      <div className="stat-rodape">
+        {variacao ? (
+          <span className="variacao" data-sinal={variacao[0]}>
+            {variacao}
+          </span>
+        ) : (
+          <span />
+        )}
+        {serie ? <Sparkline valores={serie} cor={cor} /> : null}
+      </div>
+    </div>
+  );
+}
+
+/** Decorative trend line; the number next to it carries the meaning. */
+export function Sparkline({ valores, cor }: { valores: number[]; cor: string }) {
+  const min = Math.min(...valores);
+  const amp = Math.max(...valores) - min || 1;
+  const pts = valores
+    .map((v, i) => `${(i / (valores.length - 1)) * 80},${22 - ((v - min) / amp) * 20}`)
+    .join(' ');
+  return (
+    <svg className="sparkline" aria-hidden="true" viewBox="0 0 80 24" width="80" height="24">
+      <polyline points={pts} fill="none" stroke={cor} strokeWidth="2" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+export function Anel({
+  rotulo,
+  valor,
+  max = 100,
+  texto,
+  cor = 'var(--sol-500)',
+  tamanho = 120,
+}: {
+  rotulo: string;
+  valor: number;
+  max?: number;
+  texto: string;
+  cor?: string;
+  tamanho?: number;
+}) {
+  const r = 42;
+  const volta = 2 * Math.PI * r;
+  const frac = Math.min(valor, max) / max;
+  return (
+    <div className="anel" role="img" aria-label={`${rotulo}: ${texto}`}>
+      <svg viewBox="0 0 100 100" width={tamanho} height={tamanho} aria-hidden="true">
+        <circle cx="50" cy="50" r={r} fill="none" stroke="var(--outline)" strokeWidth="10" />
+        <circle
+          cx="50"
+          cy="50"
+          r={r}
+          fill="none"
+          stroke={cor}
+          strokeWidth="10"
+          strokeLinecap="round"
+          strokeDasharray={`${frac * volta} ${volta}`}
+          transform="rotate(-90 50 50)"
+        />
+      </svg>
+      <span className="anel-centro" aria-hidden="true">
+        <span className="anel-valor">{texto}</span>
+        <span className="rotulo-mono">{rotulo}</span>
+      </span>
+    </div>
+  );
+}
+
+/** Bar chart; positive and optional negative series share one zero line. */
+export function Barras({
+  rotulo,
+  rotulos,
+  valores,
+  negativos,
+  cor = 'var(--sol-500)',
+  corNegativa = 'var(--neon-coral)',
+}: {
+  rotulo: string;
+  rotulos: string[];
+  valores: number[];
+  negativos?: number[];
+  cor?: string;
+  corNegativa?: string;
+}) {
+  const max = Math.max(...valores, ...(negativos ?? [0]), 1);
+  const alt = negativos ? 50 : 90;
+  const zero = negativos ? 60 : 100;
+  const passo = 300 / valores.length;
+  const larg = Math.min(passo * 0.55, 28);
+  return (
+    <svg className="grafico" viewBox="0 0 300 130" role="img" aria-label={rotulo}>
+      {valores.map((v, i) => {
+        const x = i * passo + (passo - larg) / 2;
+        const h = (v / max) * alt;
+        const n = negativos ? ((negativos[i] ?? 0) / max) * alt : 0;
+        return (
+          <g key={i}>
+            <rect x={x} y={zero - h} width={larg} height={h} rx="6" fill={cor} />
+            {negativos ? (
+              <rect x={x} y={zero + 2} width={larg} height={n} rx="6" fill={corNegativa} />
+            ) : null}
+            <text x={x + larg / 2} y="126" textAnchor="middle">
+              {rotulos[i]}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+export function Tag({ cor, children }: { cor: string; children: ReactNode }) {
+  return (
+    <span className="tag" style={{ ['--cor']: cor } as CSSProperties}>
+      {children}
+    </span>
+  );
+}
+
+export function Tarefa({
+  titulo,
+  projeto,
+  cor,
+  quando,
+  feita,
+  onAlternar,
+}: {
+  titulo: string;
+  projeto: string;
+  cor: string;
+  quando: string;
+  feita: boolean;
+  onAlternar: () => void;
+}) {
+  const id = useId();
+  return (
+    <li className="tarefa">
+      <input id={id} type="checkbox" checked={feita} onChange={onAlternar} />
+      <div className="tarefa-texto">
+        <label htmlFor={id}>{titulo}</label>
+        <span className="tarefa-meta">
+          <Tag cor={cor}>{projeto}</Tag>
+          <span>{quando}</span>
+        </span>
+      </div>
+    </li>
   );
 }
 
