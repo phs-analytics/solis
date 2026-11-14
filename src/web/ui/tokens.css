@@ -1,0 +1,104 @@
+/* Fonte da verdade: docs/DS.md §2–§6. Contraste medido em tests/unit/contraste.test.ts. */
+:root {
+  color-scheme: dark;
+  /* marca */
+  --sol-500: #ffb547;
+  --sol-700: #9a5b00;
+  --neon-cyan: #3ee6e0;
+  --neon-violet: #8b7cff;
+  --neon-coral: #ff7a90;
+  --neon-green: #5cf2a0;
+
+  /* tema escuro (padrão) */
+  --bg: #0e1020;
+  --bg-gradient: linear-gradient(135deg, #0e1020, #1a1240);
+  --surface: #171a2e;
+  --surface-high: #21253d;
+  --glass-fill: rgb(255 255 255 / 8%);
+  --glass-border: rgb(255 255 255 / 14%);
+  --text-primary: #f4f5fa;
+  --text-secondary: #a9aec7;
+  --text-on-sol: #1a1300;
+  --positive: #34d399;
+  --neutral: #fbbf24;
+  --negative: #f87171;
+  --text-on-negative: #1a0505;
+  --outline: #3a3f5c;
+  /* semânticos */
+  --accent-text: var(--sol-500);
+  --focus: var(--sol-500);
+  --field-border: #7a8099;
+  --shadow: none;
+
+  /* tipografia */
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --fs-display: 2.5rem;
+  --lh-display: 3rem;
+  --fs-headline: 1.75rem;
+  --lh-headline: 2.25rem;
+  --fs-title: 1.25rem;
+  --lh-title: 1.75rem;
+  --fs-body-lg: 1.125rem;
+  --lh-body-lg: 1.625rem;
+  --fs-body: 1rem;
+  --lh-body: 1.5rem;
+  --fs-caption: 0.875rem;
+  --lh-caption: 1.25rem;
+
+  /* espaço e forma */
+  --sp-xs: 0.25rem;
+  --sp-sm: 0.5rem;
+  --sp-md: 1rem;
+  --sp-lg: 1.5rem;
+  --sp-xl: 2rem;
+  --sp-xxl: 3rem;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --alvo: 44px;
+
+  /* movimento */
+  --dur-instant: 100ms;
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 1, 1);
+  --glass-blur: 24px;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f4f7fe;
+  --bg-gradient: linear-gradient(135deg, #f4f7fe, #ece9fb);
+  --surface: #ffffff;
+  --surface-high: #ffffff;
+  --glass-fill: rgb(255 255 255 / 70%);
+  --glass-border: rgb(20 22 43 / 8%);
+  --text-primary: #14162b;
+  --text-secondary: #50556e;
+  --positive: #047857;
+  --neutral: #92400e;
+  --negative: #b91c1c;
+  --text-on-negative: #ffffff;
+  --outline: #d5d8e5;
+  --accent-text: var(--sol-700);
+  --focus: var(--sol-700);
+  --field-border: #767b94;
+  --shadow: 0 2px 8px rgb(20 22 43 / 8%);
+}
+
+:root[data-tier='low'],
+:root[data-reduce-effects] {
+  --glass-blur: 0px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 100ms;
+    --dur-base: 100ms;
+    --dur-slow: 100ms;
+  }
+}

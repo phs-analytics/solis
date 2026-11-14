@@ -1,0 +1,24 @@
+.pagina {
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: var(--sp-xl) var(--sp-md);
+}
+.pagina form {
+  display: grid;
+  gap: var(--sp-md);
+}
+.aviso {
+  margin: 0 0 var(--sp-lg);
+  padding-left: var(--sp-md);
+  border-left: 4px solid var(--neutral);
+}
+.forca {
+  margin: 0;
+  min-height: var(--lh-body);
+  font-size: var(--fs-body);
+  color: var(--text-secondary);
+}
+.erro {
+  margin: 0;
+  color: var(--negative);
+}

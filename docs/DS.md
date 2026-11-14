@@ -88,6 +88,7 @@ Três regras que mandam sobre a estética:
 
 ### 2.4 Regras
 - Todo par texto/fundo precisa de contraste **≥ 4.5:1** (texto normal) e **≥ 3:1** (texto ≥ 18 px/negrito 14 px, ícones e bordas de componentes), conforme WCAG 2.2 AA. **Os valores acima são proposta e serão medidos na etapa 3 do PI**. Qualquer par que falhar será ajustado ali.
+- **Medição da etapa 3** (`tests/unit/contraste.test.ts` lê `src/web/ui/tokens.css`): três pares falharam e ganharam tokens próprios. Anel de foco e borda/texto do botão secundário no tema claro usam `sol.700` (com `sol.500` dava 1,6:1). Borda de campo e chip usa `field-border` (`#7A8099` escuro, `#767B94` claro), porque `outline` dava 1,7:1. Texto sobre botão de perigo no escuro: `#1A0505`.
 - Neon (cyan, violet, coral) é para **acentos**: bordas, ícones, gráficos, brilho. Texto corrido em neon só sobre `bg`/`surface` escuros e em tamanho ≥ 18 px.
 - Sobre vidro, o texto fica sempre em `text.primary`. Se o fundo atrás do vidro for claro/variável, adicionar um *scrim* `bg` a 40%.
 - Valores monetários: receita `positive` + sinal "+"; despesa `text.primary` + sinal "−" (vermelho só para alertas, para não transformar a lista inteira num mar vermelho e gerar ansiedade).
