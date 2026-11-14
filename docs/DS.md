@@ -9,6 +9,20 @@
 
 ---
 
+## 0. Direção visual v1.1 (14/11/2026)
+Substitui as cores e fontes das seções 2 e 3 onde houver conflito. Referência: o PDF "Design" do desenvolvedor (Design Base + telas de computador e celular para Visão geral, Finanças, Tarefas e Saúde).
+
+| Tema | Estilo | Receita |
+|---|---|---|
+| Escuro (padrão do sistema escuro) | **Glassmorphism + retro-tech** | Fundo `#16161B` com manchas radiais roxo/azul/laranja; todo card é vidro (7% branco, blur 24 px, borda 12%) |
+| Claro | **Neumorfismo** | Fundo e superfície no mesmo creme `#EFE7DA`; relevo por sombra dupla (`--neu-out`) e campos/itens ativos afundados (`--neu-in`) |
+
+- **Paleta "Design Base":** laranja `#D96234`, verde `#333F2F`, roxo `#796194`, azul `#40628D`, creme `#F6EFE4`, tinta `#1E1E1E`. O Sol (`--sol-500`) passa a ser o dourado do avatar, `#D9A635`. Cores de módulo: Finanças laranja, Tarefas roxo, Saúde verde.
+- **Fontes:** Nunito (texto e títulos; arredondada, substituta livre da SF Pro Rounded, cuja licença não permite embutir fora da Apple) e Space Mono (números grandes e rótulos em caixa alta, o toque retro-tech).
+- **Navegação:** menu lateral de vidro no computador (≥ 768 px); barra inferior flutuante no celular.
+- **Assistente:** avatar "New avatar" (`src/web/assistente/new-avatar.avatar.json`, `@bible-strong/avatar-react`). Botão flutuante abre um painel; a saudação da Visão geral usa o estado `happy`. Respeita `prefers-reduced-motion` (o pacote congela a pose).
+- O contraste continua medido em `tests/unit/contraste.test.ts` (AA nos dois temas).
+
 ## 1. Análise das referências
 
 ### 1.1 Fonte desta análise
@@ -88,6 +102,7 @@ Três regras que mandam sobre a estética:
 
 ### 2.4 Regras
 - Todo par texto/fundo precisa de contraste **≥ 4.5:1** (texto normal) e **≥ 3:1** (texto ≥ 18 px/negrito 14 px, ícones e bordas de componentes), conforme WCAG 2.2 AA. **Os valores acima são proposta e serão medidos na etapa 3 do PI**. Qualquer par que falhar será ajustado ali.
+- **Medição da etapa 3** (`tests/unit/contraste.test.ts` lê `src/web/ui/tokens.css`): três pares falharam e ganharam tokens próprios. Anel de foco e borda/texto do botão secundário no tema claro usam `sol.700` (com `sol.500` dava 1,6:1). Borda de campo e chip usa `field-border` (`#7A8099` escuro, `#767B94` claro), porque `outline` dava 1,7:1. Texto sobre botão de perigo no escuro: `#1A0505`.
 - Neon (cyan, violet, coral) é para **acentos**: bordas, ícones, gráficos, brilho. Texto corrido em neon só sobre `bg`/`surface` escuros e em tamanho ≥ 18 px.
 - Sobre vidro, o texto fica sempre em `text.primary`. Se o fundo atrás do vidro for claro/variável, adicionar um *scrim* `bg` a 40%.
 - Valores monetários: receita `positive` + sinal "+"; despesa `text.primary` + sinal "−" (vermelho só para alertas, para não transformar a lista inteira num mar vermelho e gerar ansiedade).

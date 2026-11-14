@@ -90,12 +90,59 @@
    ```
 8. **Proteja a `main`:** em **Settings › Rules › Rulesets**, crie uma regra para a branch padrão exigindo Pull Request e o CI verde (check `verificar`), e bloqueando *force push* e exclusão.
 
-## 3. Instalar e iniciar o Solis (escrita na etapa 2)
-Resumo: `pnpm start` liga o servidor no seu computador. No primeiro acesso você cria uma **frase-senha** (por exemplo, quatro palavras aleatórias). Ela cifra o banco: **se esquecer, os dados não abrem mais**, nem para você.
+## 3. Instalar e iniciar o Solis
+O Solis é um app (Tauri 2): o mesmo código vira o programa de Windows/Linux e o APK de Android. No primeiro uso você cria uma **frase-senha** (por exemplo, quatro palavras aleatórias). Ela cifra o banco no aparelho: **se esquecer, os dados não abrem mais**, nem para você.
 
-## 4. Design System (escrita na etapa 3)
+### 3.1 Ferramentas (uma vez, no Windows)
+1. **Visual Studio Build Tools 2022**: baixe em visualstudio.microsoft.com/visual-cpp-build-tools e marque **"Desenvolvimento para desktop com C++"**. (~6 GB)
+2. **Rust**: baixe o `rustup-init.exe` em **rustup.rs**, aceite a instalação padrão e abra um terminal novo. Confira com `rustc --version`.
+3. **WebView2**: já vem no Windows 10/11 atualizado.
+
+Rodar no computador:
+```bash
+pnpm install
+pnpm app:dev
+```
+O primeiro `app:dev` compila o SQLCipher e demora alguns minutos; os seguintes são rápidos. Para gerar o instalador (`.exe`): `pnpm app:build` (sai em `src-tauri/target/release/bundle/nsis/`).
+
+Testes do núcleo em Rust:
+```bash
+cargo test --manifest-path src-tauri/Cargo.toml
+```
+
+### 3.2 Android (APK)
+1. Instale o **Android Studio** (developer.android.com/studio). Em **Settings › Languages & Frameworks › Android SDK**, aba **SDK Platforms**, marque a versão mais recente; na aba **SDK Tools**, marque **Android SDK Build-Tools**, **NDK (Side by side)**, **Android SDK Command-line Tools** e **Android SDK Platform-Tools**.
+2. Crie as variáveis de ambiente do Windows (Painel de Controle › Variáveis de ambiente), ajustando a versão do NDK à que foi instalada:
+   - `JAVA_HOME` = `C:\Program Files\Android\Android Studio\jbr`
+   - `ANDROID_HOME` = `%LOCALAPPDATA%\Android\Sdk`
+   - `NDK_HOME` = `%LOCALAPPDATA%\Android\Sdk\ndk\<versão>`
+3. Alvos do Rust para Android:
+   ```bash
+   rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+   ```
+4. Uma vez só, gere o projeto Android (pasta `src-tauri/gen/android`, que vai para o Git):
+   ```bash
+   pnpm tauri android init
+   ```
+5. APK para testar no seu celular (assinado com a chave de depuração):
+   ```bash
+   pnpm tauri android build --apk --debug
+   ```
+   Copie o `.apk` de `src-tauri/gen/android/app/build/outputs/apk/` para o celular e instale (o Android pede para permitir "instalar apps desta fonte").
+
+A chave de assinatura definitiva (para atualizar o app por cima sem perder dados) fica para a etapa de build: ela é guardada **fora do Git** e, se for perdida, o app só pode ser reinstalado do zero.
+
+### 3.3 Linux
+Os pacotes `.deb` e AppImage são gerados pelo GitHub Actions (não dá para gerar no Windows).
+
+## 4. Design System
+Em desenvolvimento, `pnpm vite` e abra `http://127.0.0.1:5173/#catalogo`: todos os componentes nos estados do DS, com botões para tema claro/escuro e "reduzir efeitos". O catálogo não entra no app final. O contraste das cores é medido automaticamente por `tests/unit/contraste.test.ts`.
+
+As telas (Visão geral, Finanças, Tarefas, Saúde) já seguem o visual novo (DS §0), mas ainda mostram **dados de exemplo** (`src/web/telas/exemplo.ts`): os dados reais chegam nas etapas 5 a 8. O avatar do assistente fica no botão redondo do canto; as respostas chegam na etapa 9.
 
 ## 5. Acessar pelo celular com o Tailscale
+> **Será revisada na etapa de sincronização:** com o app instalado no celular, o Tailscale passa a ligar os aparelhos ao **servidor de sincronização**, não mais a uma página aberta no navegador. Os passos 1–5 abaixo continuam valendo; 6–8 mudam.
+
 O Tailscale cria uma rede privada entre os seus aparelhos. O Solis continua invisível na internet; só quem está na sua rede chega até ele, e mesmo assim precisa da senha.
 
 1. Crie a conta em **tailscale.com** (plano Personal, grátis) usando um login que tenha verificação em duas etapas.

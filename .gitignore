@@ -34,3 +34,13 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .claude/*.local.*
+
+# Tauri
+src-tauri/target/
+src-tauri/gen/schemas/
+*.keystore
+*.jks
+keystore.properties
+
+# capturas de tela locais para revisão do design
+capturas-design/

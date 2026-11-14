@@ -68,6 +68,18 @@ Total: cerca de **14,5 semanas**. (A estimativa anterior, de 13 semanas, foi fei
 
 ---
 
+## Mudança de plataforma (13/11/2026)
+O Solis deixa de ser um site servido pelo PC e passa a ser **app Android (APK) + programa para Windows e Linux**, com **Tauri 2 + React/TypeScript** ([ADR 0002](adr/0002-plataforma.md)). Cada aparelho guarda os dados num banco cifrado local e sincroniza com o **seu servidor** (sem Play Store).
+
+O que muda nas etapas:
+- **Etapa 2** (feita): o cofre (SQLCipher + scrypt, tentativas, bloqueio por inatividade) mudou do servidor Node para o núcleo em Rust (`src-tauri/src/cofre.rs`). A interface chama comandos do Tauri em vez de HTTP. Formato do banco e parâmetros iguais ao ADR 0001.
+- **Etapa 3** (feita): sem mudança; os componentes rodam iguais no app.
+- **Etapa 4** passa a ser: navegação e onboarding (como antes) + **servidor de sincronização** (o Fastify vira API `/sync` com token por aparelho, acessível só pela rede Tailscale) + **motor de sincronização** no app (envio diário, conflitos por "a alteração mais recente vence" em cada registro, fila offline) + **builds** (APK, `.exe`, `.deb`/AppImage no GitHub Actions; chave de assinatura do APK fora do Git). Sai a PWA.
+- **Etapas 5–11**: iguais, mas toda tabela nova já nasce com `id` UUIDv7, `updated_at` e `deleted_at` (para sincronizar).
+- **Decisões pendentes antes da etapa 4:** tipo do servidor (VPS ou PC em casa), cifragem de ponta a ponta (o servidor não lê os dados; neste caso a Pluggy da etapa 6 roda no app) e frequência da sincronização (só diária ou também ao abrir + botão manual).
+
+---
+
 ## Etapa 2: Esqueleto: servidor, interface, banco cifrado e login
 **Tarefas**
 1. `src/server` com Fastify escutando **só em `127.0.0.1`**; `src/web` com React + Vite (proxy de `/api` em desenvolvimento); o servidor entrega a interface em produção.

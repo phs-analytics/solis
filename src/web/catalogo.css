@@ -1,0 +1,41 @@
+.catalogo-conteudo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-lg);
+  max-width: 840px;
+  margin: 0 auto;
+  padding: var(--sp-xl) var(--sp-md) 160px;
+}
+@media (min-width: 768px) {
+  .catalogo-conteudo {
+    margin-left: max(136px, calc((100vw - 840px) / 2));
+  }
+}
+.catalogo-controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-sm);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+}
+.catalogo-dica {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+}
+.catalogo-linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-sm);
+  margin-bottom: var(--sp-md);
+}
+.catalogo-grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--sp-lg);
+}
+.card .campo,
+.card .progresso {
+  margin-bottom: var(--sp-md);
+}
