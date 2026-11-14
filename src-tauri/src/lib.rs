@@ -11,7 +11,7 @@ fn agora() -> u64 {
     SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_millis() as u64).unwrap_or(0)
 }
 
-fn travar(e: &State<'_, Estado>) -> std::sync::MutexGuard<'_, Cofre> {
+fn travar<'a>(e: &'a State<'a, Estado>) -> std::sync::MutexGuard<'a, Cofre> {
     // a panic while holding the lock leaves Cofre consistent (fields are plain values)
     e.0.lock().unwrap_or_else(|p| p.into_inner())
 }
